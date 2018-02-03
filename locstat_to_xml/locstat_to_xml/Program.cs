@@ -1,30 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
+
 
 namespace locstat_to_xml
 {
     public class Program
     {
-
 [DllImport("User32.dll", CharSet = CharSet.Unicode)]
 public static extern int MessageBox(IntPtr h, string m, string c, int type);
-
         static void Main(string[] args)
-        {
+        {         
             string path = Directory.GetCurrentDirectory();
             if (File.Exists(path + @"\config0.cfg"))
             {
-                string path_c = @"e:\!serv\config.cfg";
-                string path_log_out = @"c:\statNETifce\out";
-                string path_log = @"c:\statNETifce\";
 
-                //string[] tab0 = File.ReadAllLines(path, Encoding.UTF8);
+                //string path_c = @"e:\!serv\config.cfg";
+                string path1 = path + @"\config0.cfg";
+                string[] tab = File.ReadAllLines(path1);
+                string path_log_out = @tab[0];
+                string path_log = @tab[1];
+                string path_c = path + @"\config.cfg";
                 string[] tab0 = File.ReadAllLines(path_c);
                 string[] tab0Values = null;
                 DataRow dr = null;
@@ -160,8 +158,4 @@ public static extern int MessageBox(IntPtr h, string m, string c, int type);
                 { File.Move(file.FullName, @Dir2 + @"\" + file.Name); }
             }
             catch (Exception ex)
-            {// MessageBox.Show(ex.Message + Environment.NewLine);
-            }
-        }
-    }
-}
+            {MessageBox((IntPtr)0, ex.Message,"",0);}}}}
