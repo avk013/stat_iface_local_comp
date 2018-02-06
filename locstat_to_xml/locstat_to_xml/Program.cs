@@ -14,15 +14,24 @@ public static extern int MessageBox(IntPtr h, string m, string c, int type);
         static void Main(string[] args)
         {         
             string path = Directory.GetCurrentDirectory();
+            string path1, path_c;
             if (File.Exists(path + @"\config0.cfg"))
             {
+                path1 = path + @"\config0.cfg";
+                path_c = path + @"\config.cfg";
+            }
+            else
+            {
+                path1 = @"C:\statNETifce\" + @"config0.cfg";
+                path_c = @"C:\statNETifce\" + @"config.cfg";
+            }
 
                 //string path_c = @"e:\!serv\config.cfg";
-                string path1 = path + @"\config0.cfg";
+
                 string[] tab = File.ReadAllLines(path1);
                 string path_log_out = @tab[0];
-                string path_log = @tab[1];
-                string path_c = path + @"\config.cfg";
+                string path_log_c = @tab[1];
+                string path_log;
                 string[] tab0 = File.ReadAllLines(path_c);
                 string[] tab0Values = null;
                 DataRow dr = null;
@@ -33,6 +42,7 @@ public static extern int MessageBox(IntPtr h, string m, string c, int type);
                     {
                         tab0Values = tab0[i0].Split(',');
                         path_log = tab0Values[0];
+                    if (!Directory.Exists(@path_log)) continue;
                         nom_if = Convert.ToInt16(tab0Values[1]);
                         ////////////////////////////////////////
                         System.IO.DirectoryInfo info = new System.IO.DirectoryInfo(@path_log);
@@ -120,7 +130,7 @@ public static extern int MessageBox(IntPtr h, string m, string c, int type);
                             dates = dates.Replace(" ", "_"); dates = dates.Replace(":", "-"); dates = dates.Replace(".", "_");
                             if (!Directory.Exists(@path_log_out)) Directory.CreateDirectory(@path_log_out);
                             //label4.Text = dates;
-                            dt.WriteXml(@path_log_out + @"\" + dates + @"out.xml");
+                            dt.WriteXml(@path_log_c + @"\" + dates + @"out.xml");
                             // ищем уникальніе имена
                             string name_u = dt.Rows[0][0].ToString(), name_old = "";
                             for (int i = 0; i < dt.Rows.Count; i++)
@@ -138,10 +148,10 @@ public static extern int MessageBox(IntPtr h, string m, string c, int type);
                                 /////////////
                             }
                         }
-                    }
+                    
                 }
             }
-            else MessageBox((IntPtr)0, "Необходимо 2 конфига: config0.cfg и config.cfg"+Environment.NewLine+ "config0.cfg содержит:" + Environment.NewLine + "путь_куда_сохраняется_файл_out.xml" + Environment.NewLine + "путь_куда_переносятся_файлы_логов_после_обработки " + Environment.NewLine + Environment.NewLine+ "config.cfg содержит:" + Environment.NewLine + "путь_где_находятся_логи,идентификатор_интерфейса "+ Environment.NewLine + "путь2_где_находятся_логи,идентификатор2_интерфейса", "message", 0);
+          //  else MessageBox((IntPtr)0, "В папке"+ Environment.CurrentDirectory + "Необходимо 2 конфига: config0.cfg и config.cfg" +Environment.NewLine+ "config0.cfg содержит:" + Environment.NewLine + "путь_куда_сохраняется_файл_out.xml" + Environment.NewLine + "путь_куда_переносятся_файлы_логов_после_обработки " + Environment.NewLine + Environment.NewLine+ "config.cfg содержит:" + Environment.NewLine + "путь_где_находятся_логи,идентификатор_интерфейса "+ Environment.NewLine + "путь2_где_находятся_логи,идентификатор2_интерфейса", "message", 0);
             ///////////////////////////////////////
         }
         static void move2path(string @name_old, string @path, string @path_new)
