@@ -42,8 +42,9 @@ public static extern int MessageBox(IntPtr h, string m, string c, int type);
                     {
                         tab0Values = tab0[i0].Split(',');
                         path_log = tab0Values[0];
-                    if (!Directory.Exists(@path_log)) continue;
-                        nom_if = Convert.ToInt16(tab0Values[1]);
+                    if (!Directory.Exists(@path_log))
+                    //continue;
+                    {  nom_if = Convert.ToInt16(tab0Values[1]);
                         ////////////////////////////////////////
                         System.IO.DirectoryInfo info = new System.IO.DirectoryInfo(@path_log);
                         System.IO.DirectoryInfo[] dirs = info.GetDirectories();
@@ -130,7 +131,8 @@ public static extern int MessageBox(IntPtr h, string m, string c, int type);
                             dates = dates.Replace(" ", "_"); dates = dates.Replace(":", "-"); dates = dates.Replace(".", "_");
                             if (!Directory.Exists(@path_log_out)) Directory.CreateDirectory(@path_log_out);
                             //label4.Text = dates;
-                            dt.WriteXml(@path_log_c + @"\" + dates + @"out.xml");
+                            Random rnd = new Random();
+                            dt.WriteXml(@path_log_c + @"\" + dates + rnd.Next(65535).ToString()+ @"out.xml");
                             // ищем уникальніе имена
                             string name_u = dt.Rows[0][0].ToString(), name_old = "";
                             for (int i = 0; i < dt.Rows.Count; i++)
@@ -149,7 +151,7 @@ public static extern int MessageBox(IntPtr h, string m, string c, int type);
                             }
                         }
                     
-                }
+                }}
             }
           //  else MessageBox((IntPtr)0, "В папке"+ Environment.CurrentDirectory + "Необходимо 2 конфига: config0.cfg и config.cfg" +Environment.NewLine+ "config0.cfg содержит:" + Environment.NewLine + "путь_куда_сохраняется_файл_out.xml" + Environment.NewLine + "путь_куда_переносятся_файлы_логов_после_обработки " + Environment.NewLine + Environment.NewLine+ "config.cfg содержит:" + Environment.NewLine + "путь_где_находятся_логи,идентификатор_интерфейса "+ Environment.NewLine + "путь2_где_находятся_логи,идентификатор2_интерфейса", "message", 0);
             ///////////////////////////////////////
